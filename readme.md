@@ -30,6 +30,25 @@
 - EJS (EJS used as a templating engine)
 - nodemon (Nodemon used to restart the server on file changes)
 
+# Features
+
+- MVC architecture
+- ORM by using Sequelize
+- MySQL database
+- Models
+- Views
+- Controllers
+- Request validation / Requests
+- Routes
+- Session Flash Messages
+- Method Override
+- Migrations
+- View Engine / Templating Engine
+- Error Handling
+- 404 Error Handling
+- 500 Error Handling
+- etc & more
+
 ## Backend API endpoints
 
 - GET `/tasks` - Get all tasks
