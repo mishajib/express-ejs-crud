@@ -2,14 +2,14 @@
   "development": {
     "username": "root",
     "password": "toor",
-    "database": "todo_list",
+    "database": "task_list",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": "toor",
-    "database": "todo_list",
+    "database": "task_list",
     "host": "localhost",
     "dialect": "mysql"
   }
