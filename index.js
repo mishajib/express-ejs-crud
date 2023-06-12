@@ -1,10 +1,10 @@
-const express      = require('express');
-const app          = express();
-const cors         = require('cors');
-const flash        = require('connect-flash');
-const session      = require('express-session');
-const initRoutes   = require('./routes');
-const {formatDate} = require('./helpers/index.helpers');
+const express        = require('express');
+const app            = express();
+const cors           = require('cors');
+const flash          = require('connect-flash');
+const session        = require('express-session');
+const initRoutes     = require('./routes');
+const {formatDate}   = require('./helpers/index.helpers');
 const methodOverride = require('method-override');
 
 // Set EJS as the templating/view engine
@@ -37,6 +37,9 @@ app.use((req, res, next) => {
     res.locals.inputValues      = req.flash('inputValues')[0] || {};
     res.locals.validationErrors = req.flash('validationErrors')[0] || {};
     res.locals.formatDate       = formatDate;
+
+    // set current url
+    res.locals.currentUrl = req.path;
     next();
 });
 
