@@ -5,7 +5,6 @@ const basedir = require('../basedir');
 
 const uploadPath = basedir + "/uploads/";
 
-console.log(uploadPath)
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {

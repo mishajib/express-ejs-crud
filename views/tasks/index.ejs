@@ -7,10 +7,12 @@
 
             <a href="/tasks/create" class="btn btn-primary float-end ms-2">
                 Add Task
+                <i class="fas fa-plus"></i>
             </a>
 
             <a href="/tasks/import" class="btn btn-success float-end">
                 Import Tasks
+                <i class="fas fa-upload"></i>
             </a>
         </h4>
     </div>
@@ -42,13 +44,18 @@
                         <td><%= formatDate(task.createdAt) %></td>
                         <td><%= formatDate(task.updatedAt) %></td>
                         <td class="text-center">
-                            <a href="/tasks/<%= task.id %>/edit" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="/tasks/<%= task.id %>" class="btn btn-sm btn-info">View</a>
+                            <a href="/tasks/<%= task.id %>/edit" class="btn btn-sm btn-warning" title="Edit task">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/tasks/<%= task.id %>" class="btn btn-sm btn-info" title="View task details">
+                                <i class="fas fa-eye"></i>
+                            </a>
                             <!--                                        add confirmation-->
                             <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST"
                                   style="display: inline-block">
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure to delete?')">Delete
+                                <button type="submit" class="btn btn-sm btn-danger" title="Delete task"
+                                        onclick="return confirm('Are you sure to delete?')">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
                         </td>

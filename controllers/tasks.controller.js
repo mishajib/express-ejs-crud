@@ -5,7 +5,6 @@ const Task        = require('../models/task');
 const {uploadCSV} = require("../helpers/csvUploade.helper");
 
 const index = async (req, res) => {
-    console.log(res.locals.successMsg);
     const page     = parseInt(req.query.page) || 1; // Get the page parameter from the request query, default to page 1
     const pageSize = 10; // Set the number of tasks per page
     const offset   = (page - 1) * pageSize; // Calculate the offset based on the current page
@@ -21,7 +20,6 @@ const index = async (req, res) => {
     // Calculate the total number of pages
     const totalPages = Math.ceil(totalTasks / pageSize);
 
-    console.log(totalPages)
 
     const pagination = {
         currentPage: page,
@@ -35,23 +33,17 @@ const index = async (req, res) => {
 };
 
 const create = async (req, res) => {
-    console.log(res.locals.errorMsg);
-    console.log(res.locals.inputValues);
-    console.log(res.locals.validationErrors);
-    console.log(res.locals.successMsg);
     return res.render('tasks/create', {title: 'Add new task'});
 };
 
 const store = async (req, res) => {
     try {
-        console.log(req.body);
         await Task.create(req.body);
 
         req.flash('successMsg', 'Task created successfully.');
 
         return res.redirect('back');
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');
@@ -64,7 +56,6 @@ const show = async (req, res) => {
 
         return res.render('tasks/show', {title: 'Show task details', task: task});
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');
@@ -77,7 +68,6 @@ const edit = async (req, res) => {
 
         return res.render('tasks/edit', {title: 'Edit task', task: task});
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');
@@ -94,7 +84,6 @@ const update = async (req, res) => {
 
         return res.redirect('/tasks');
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');
@@ -111,7 +100,6 @@ const destroy = async (req, res) => {
 
         return res.redirect('/tasks');
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');
@@ -124,19 +112,13 @@ const importTasksPage = async (req, res) => {
 
 const importTasks = async (req, res) => {
     try {
-        // await uploadFile(req, res);
-        console.log(req.file)
         const filePath      = req.file.path;
         const fileExtension = filePath.split('.').pop().toLowerCase();
-        console.log(filePath)
-        console.log(fileExtension)
 
         if (fileExtension === 'xlsx') {
             const workbook  = XLSX.readFile(filePath);
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
             const jsonData  = XLSX.utils.sheet_to_json(worksheet);
-
-            console.log(jsonData)
 
             // Process jsonData and save it to the database using Sequelize
             await Task.bulkCreate(jsonData);
@@ -157,7 +139,6 @@ const importTasks = async (req, res) => {
 
         return res.redirect('/tasks');
     } catch (e) {
-        console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
 
         return res.redirect('back');

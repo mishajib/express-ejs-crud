@@ -27,22 +27,32 @@
                 <label for="file" class="form-label">
                     Choose Excel/CSV File
                 </label>
-                <input type="file" name="task_file" id="file"
-                       class="form-control <%= validationErrors.task_file ? 'is-invalid' : '' %>">
-                <% if (validationErrors.task_file) { %>
-                    <div class="invalid-feedback">
-                        <%= validationErrors.task_file %>
-                    </div>
-                <% } %>
+                <div class="input-group mb-3">
+                    <input type="file" name="task_file" id="file" required
+                           class="form-control <%= validationErrors.task_file ? 'is-invalid' : '' %>">
+                    <span class="input-group-text">
+                        <i class="fas fa-file-excel"></i>
+                    </span>
+                    <span class="input-group-text">
+                        <i class="fas fa-file-csv"></i>
+                    </span>
+                    <% if (validationErrors.task_file) { %>
+                        <div class="invalid-feedback">
+                            <%= validationErrors.task_file %>
+                        </div>
+                    <% } %>
+                </div>
             </div>
         </div>
         <div class="card-footer">
             <p class="text-end">
                 <a href="/tasks" class="btn btn-danger">
+                    <i class="fas fa-close"></i>
                     Cancel
                 </a>
                 <button class="btn btn-primary">
                     Import
+                    <i class="fas fa-file-import"></i>
                 </button>
             </p>
         </div>

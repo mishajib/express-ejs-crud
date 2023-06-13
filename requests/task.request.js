@@ -29,7 +29,6 @@ const validateTask = [
 const validateTaskFile = [
     // Validate the task file
     body('task_file').custom((value, {req}) => {
-        console.log(req)
         if (!req.file) {
             throw new Error('Please select a task file!');
         }
@@ -45,7 +44,8 @@ const validateTaskFile = [
     }),
     (req, res, next) => {
         const errors = validationResult(req);
-        console.log(errors)
+        // remove index 1 because it is the file field
+        errors.array().splice(1, 1);
         if (!errors.isEmpty()) {
             const validationErrors = {};
             // Store validation errors in flash messages

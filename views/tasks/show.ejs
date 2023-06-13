@@ -28,11 +28,16 @@
             </table>
 
             <div class="text-center">
-                <a href="/tasks/<%= task.id %>/edit" class="btn btn-warning">Edit</a>
+                <a href="/tasks/<%= task.id %>/edit" class="btn btn-warning">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </a>
                 <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST"
                       style="display: inline-block">
                     <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure to delete?')">Delete
+                            onclick="return confirm('Are you sure to delete?')">
+                        Delete
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </form>
             </div>
