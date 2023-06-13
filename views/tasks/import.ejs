@@ -1,0 +1,52 @@
+<%- include('../layouts/header') %>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Import Tasks
+        </h4>
+    </div>
+
+    <% if (errorMsg) { %>
+        <% errorMsg.forEach(error => { %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% }) %>
+    <% } %>
+
+    <% if (successMsg) { %>
+        <div class="alert alert-success" role="alert">
+            <%= successMsg %>
+        </div>
+    <% } %>
+
+    <form action="/tasks/import" method="POST" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="form-group mb-3">
+                <label for="file" class="form-label">
+                    Choose Excel/CSV File
+                </label>
+                <input type="file" name="task_file" id="file"
+                       class="form-control <%= validationErrors.task_file ? 'is-invalid' : '' %>">
+                <% if (validationErrors.task_file) { %>
+                    <div class="invalid-feedback">
+                        <%= validationErrors.task_file %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="card-footer">
+            <p class="text-end">
+                <a href="/tasks" class="btn btn-danger">
+                    Cancel
+                </a>
+                <button class="btn btn-primary">
+                    Import
+                </button>
+            </p>
+        </div>
+    </form>
+</div>
+
+<%- include('../layouts/footer') %>

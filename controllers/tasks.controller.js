@@ -1,6 +1,10 @@
-const {locals} = require("express/lib/application");
-const Task     = require('../models/task');
-const index    = async (req, res) => {
+const XLSX        = require('xlsx');
+const csv         = require('csv-parser');
+const fs          = require('fs-extra');
+const Task        = require('../models/task');
+const {uploadCSV} = require("../helpers/csvUploade.helper");
+
+const index = async (req, res) => {
     console.log(res.locals.successMsg);
     const page     = parseInt(req.query.page) || 1; // Get the page parameter from the request query, default to page 1
     const pageSize = 10; // Set the number of tasks per page
@@ -45,7 +49,7 @@ const store = async (req, res) => {
 
         req.flash('successMsg', 'Task created successfully.');
 
-        return res.redirect('/tasks');
+        return res.redirect('back');
     } catch (e) {
         console.log(e);
         req.flash('errorMsg', 'Something went wrong, Please try again!');
@@ -114,6 +118,52 @@ const destroy = async (req, res) => {
     }
 };
 
+const importTasksPage = async (req, res) => {
+    return res.render('tasks/import', {title: 'Import tasks'});
+};
+
+const importTasks = async (req, res) => {
+    try {
+        // await uploadFile(req, res);
+        console.log(req.file)
+        const filePath      = req.file.path;
+        const fileExtension = filePath.split('.').pop().toLowerCase();
+        console.log(filePath)
+        console.log(fileExtension)
+
+        if (fileExtension === 'xlsx') {
+            const workbook  = XLSX.readFile(filePath);
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData  = XLSX.utils.sheet_to_json(worksheet);
+
+            console.log(jsonData)
+
+            // Process jsonData and save it to the database using Sequelize
+            await Task.bulkCreate(jsonData);
+        } else if (fileExtension === 'csv') {
+            const csvData = await uploadCSV(filePath);
+
+            // Process csvData and save it to the database using Sequelize
+            await Task.bulkCreate(csvData);
+        } else {
+            req.flash('errorMsg', 'Unsupported file format, Please upload a CSV or XLSX file!');
+            return res.redirect('back');
+        }
+
+        // Clean up the uploaded file after importing
+        fs.unlinkSync(filePath);
+
+        req.flash('successMsg', 'Tasks imported successfully.');
+
+        return res.redirect('/tasks');
+    } catch (e) {
+        console.log(e);
+        req.flash('errorMsg', 'Something went wrong, Please try again!');
+
+        return res.redirect('back');
+    }
+};
+
 module.exports = {
     index,
     create,
@@ -121,5 +171,7 @@ module.exports = {
     show,
     edit,
     update,
-    destroy
+    destroy,
+    importTasksPage,
+    importTasks
 };

@@ -36,7 +36,7 @@
                 <input type="text" name="title" id="title"
                        class="form-control <%= validationErrors.title ? 'is-invalid' : '' %>"
                        placeholder="Enter title"
-                       value="<%= inputValues.title || task.title %>">
+                       value="<%= inputValues.title || task.title %>" required autofocus>
                 <% if (validationErrors.title) { %>
                     <div class="invalid-feedback">
                         <%= validationErrors.title %>
@@ -50,7 +50,8 @@
                 </label>
                 <textarea name="description" id="description" cols="30" rows="10"
                           class="form-control <%= validationErrors.description ? 'is-invalid' : '' %>"
-                          placeholder="Enter description"><%= inputValues.description || task.description %></textarea>
+                          placeholder="Enter description"
+                          required><%= inputValues.description || task.description %></textarea>
                 <% if (validationErrors.description) { %>
                     <div class="invalid-feedback">
                         <%= validationErrors.description %>

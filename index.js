@@ -7,6 +7,8 @@ const initRoutes     = require('./routes');
 const {formatDate}   = require('./helpers/index.helpers');
 const methodOverride = require('method-override');
 
+global.__basedir = __dirname;
+
 // Set EJS as the templating/view engine
 app.set('view engine', 'ejs');
 
@@ -32,6 +34,8 @@ app.use(flash());
 
 // Global variables for flash messages
 app.use((req, res, next) => {
+    // text/html
+    res.header('Content-Type', 'text/html');
     res.locals.successMsg       = req.flash('successMsg')[0] || null;
     res.locals.errorMsg         = req.flash('errorMsg');
     res.locals.inputValues      = req.flash('inputValues')[0] || {};
